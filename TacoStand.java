@@ -2,20 +2,22 @@ public class TacoStand
 {
     /* CONSTANT VARIABLES */ //public static final int NUMASADA = 0;
 	public static final String BAR = "----------------------------------------";
-	public static final String NUMASADA = String.format("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", 2.5);
-	public static final String NUMPOLLO = String.format("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", 1.75);
-	public static final String 
+	public static final double PRICEASADA = 2.5;
+	public static final double PRICEPOLLO = 1.75;
+	public static final double PRICELENGUA = 3.0;
+	public static final double PRICEULTIMATE = 18.0;
+	//public static final double TOTALFUNDS = 0;
 
 	/* STATIC (to constant) VARIABLES */
-	//public static int NUMASADA = 0, NUMPOLLO = 0, numLengua = 0, numUltimate = 0;
-	//public static double totalFunds = 0;
+	public static int numAsada = 0, numPollo = 0, numLengua = 0, numUltimate = 0;
+	public static double totalFunds = 0;
 
 	/**
 	 * Sets the store to zero for use in automated testing.
 	 */
 	public static void initialize()
 	{
-		NUMASADA = NUMPOLLO = numLengua = numUltimate = 0;
+		numAsada = numPollo = numLengua = numUltimate = 0;
 		totalFunds = 0.0D;
 	}
 
@@ -25,10 +27,10 @@ public class TacoStand
 	public static void printMenu()
 	{
 		System.out.println("Menu options:\n" + TacoStand.BAR);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", 2.5); //replace w/ TacoStand.NUMASADA like the one above//
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", 1.75);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", 3.0);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", 18.0);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", PRICEASADA); //replace w/ TacoStand.NUMASADA like the one above//
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", PRICEPOLLO);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", PRICELENGUA);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", PRICEULTIMATE);
 		System.out.println(TacoStand.BAR);
 	}
 	
@@ -47,8 +49,8 @@ public class TacoStand
 			"%-23s%2d tacos%n%s",
 			TacoStand.BAR, TacoStand.BAR, 
       "Funds Available:", TacoStand.totalFunds, TacoStand.BAR,
-      "# of Asada Left:", TacoStand.NUMASADA,
-			"# of Pollo Left:", TacoStand.NUMPOLLO,
+      "# of Asada Left:", TacoStand.numAsada,
+			"# of Pollo Left:", TacoStand.numPollo,
       "# of Lengua Left:", TacoStand.numLengua,
       "# of Ultimate Left:",TacoStand.numUltimate, TacoStand.BAR);
 	}
@@ -79,8 +81,8 @@ public class TacoStand
 
 	    TacoStand.totalFunds -= budget;
 
-	    TacoStand.NUMASADA += tacosEach;
-	    TacoStand.NUMPOLLO += tacosEach;
+	    TacoStand.numAsada += tacosEach;
+	    TacoStand.numPollo += tacosEach;
 	    TacoStand.numLengua += tacosEach;
 	    TacoStand.numUltimate += tacosEach;
 		return true;
@@ -112,6 +114,24 @@ public class TacoStand
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
 		//TODO: this is stubbed, replace this line with your actual code!
+		double payment = 0;
+		if (tacoOption == 1){ // asada 
+			payment = PRICEASADA * numTacos;
+			TacoStand.numAsada -= numTacos;
+		}
+		else if (tacoOption == 2){ // pollo
+			payment = PRICEPOLLO * numTacos;
+			TacoStand.numPollo -= numTacos;
+		}
+		else if (tacoOption == 3){ // lengua
+			payment = PRICELENGUA * numTacos;
+			TacoStand.numLengua -= numTacos;
+		}
+		else if (tacoOption == 4){ // ULTIMATE !!!
+			payment = PRICEULTIMATE * numTacos;
+			TacoStand.numUltimate -= numTacos;
+		}
+			TacoStand.totalFunds += payment;
 	}
 	
 	
@@ -125,6 +145,41 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		return false; //TODO: this is stubbed, replace this line with your actual code!
+		//TODO: this is stubbed, replace this line with your actual code!
+		if (tacoOption == 1){ // asada 
+			if (TacoStand.numAsada >= numTacos){
+S				return true;
+			}
+			else if (TacoStand.numAsada < numTacos){
+				return false;
+			}
+		}
+		if (tacoOption == 2){ // pollo
+			if (TacoStand.numPollo >= numTacos){
+				return true;
+			}
+			else if (TacoStand.numPollo < numTacos){
+				return false;
+			}
+
+		}
+		if (tacoOption == 3){ // lengua
+			if (TacoStand.numLengua >= numTacos){
+				return true;
+			}
+			else if (TacoStand.numLengua < numTacos){
+				return false;
+			}
+
+		}
+		if (tacoOption == 4){ // ULTIMATE !!!
+			if (TacoStand.numUltimate >= numTacos){
+				return true;
+			}
+			else if (TacoStand.numUltimate < numTacos){
+				return false;
+			}
+		}
+		return false;
 	}
 }
