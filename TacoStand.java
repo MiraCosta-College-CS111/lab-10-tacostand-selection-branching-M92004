@@ -1,16 +1,12 @@
 public class TacoStand
 {
-    /* CONSTANT VARIABLES */ //public static final int NUMASADA = 0;
+    /* CONSTANT VARIABLES */
 	public static final String BAR = "----------------------------------------";
-	public static final double PRICEASADA = 2.5;
-	public static final double PRICEPOLLO = 1.75;
-	public static final double PRICELENGUA = 3.0;
-	public static final double PRICEULTIMATE = 18.0;
-	//public static final double TOTALFUNDS = 0;
+	public static final int ASADA_OPTION = 1, POLLO_OPTION = 2, LENGUA_OPTION = 3, ULTIMATE_OPTION = 4;
 
-	/* STATIC (to constant) VARIABLES */
-	public static int numAsada = 0, numPollo = 0, numLengua = 0, numUltimate = 0;
-	public static double totalFunds = 0;
+	/* STATIC VARIABLES */
+	private static int numAsada = 0, numPollo = 0, numLengua = 0, numUltimate = 0;
+	private static double totalFunds = 0;
 
 	/**
 	 * Sets the store to zero for use in automated testing.
@@ -27,10 +23,10 @@ public class TacoStand
 	public static void printMenu()
 	{
 		System.out.println("Menu options:\n" + TacoStand.BAR);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", PRICEASADA); //replace w/ TacoStand.NUMASADA like the one above//
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", PRICEPOLLO);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", PRICELENGUA);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", PRICEULTIMATE);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", 2.5);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", 1.75);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", 3.0);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", 18.0);
 		System.out.println(TacoStand.BAR);
 	}
 	
@@ -68,7 +64,7 @@ public class TacoStand
 	/**
 	 * Checks if proposed budget to order supplies can be used to buy more supplies. If within total funds,
 	 * will update total funds and increment number of each option of tacos based on budget. Otherwise,
-	 * no variables are changed. (IF-ELSE OR IF-THEN STMT)
+	 * no variables are changed.
 	 * 
 	 * @param budget funds to use to order supplies
 	 * 
@@ -76,32 +72,25 @@ public class TacoStand
 	 */
 	public static boolean orderSupplies(double budget)
 	{
-		if(budget<=totalFunds){
-			int tacosEach = (int)(Math.round(budget / 0.75 / 4)); //update num of tacos
+		if(budget <= TacoStand.totalFunds){
+		
+		//tacos cost 75 cents each in supplies, keeping it simple
+	    int tacosEach = (int)(Math.round(budget / 0.75 / 4));
 
-	    TacoStand.totalFunds -= budget;
+	    TacoStand.totalFunds -= budget; //similarly: totalFunds=totalFunds-budget;
 
 	    TacoStand.numAsada += tacosEach;
 	    TacoStand.numPollo += tacosEach;
 	    TacoStand.numLengua += tacosEach;
 	    TacoStand.numUltimate += tacosEach;
-		return true;
 
-		}
-		else{
-			return false;
-		}
-		//tacos cost 75 cents each in supplies, keeping it simple
-	    //int tacosEach = (int)(Math.round(budget / 0.75 / 4)); //update num of tacos
-
-	    //TacoStand.totalFunds -= budget;
-
-	    //TacoStand.numAsada += tacosEach;
-	    //TacoStand.numPollo += tacosEach;
-	    //TacoStand.numLengua += tacosEach;
-	    //TacoStand.numUltimate += tacosEach;
-
-		//return true; 
+		return true; //you can also set a variable = true/false here
+	}
+		else
+	{ 
+		return false;
+	}
+		
 	}
 
 	/**
@@ -113,25 +102,38 @@ public class TacoStand
 	 */
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
-		//TODO: this is stubbed, replace this line with your actual code!
-		double payment = 0;
-		if (tacoOption == 1){ // asada 
-			payment = PRICEASADA * numTacos;
-			TacoStand.numAsada -= numTacos;
+		double cost; //now declared throughout whole method
+	//ALGORITHM
+	//CALC totalFunds += tacoOption cost (varying costs depending on option) * numTacos
+	//CALC (four diff variables) tacoOption count -= numTacos
+	switch(tacoOption){
+		case 1: //runs option/case and displays below until it hits {}
+		//asada
+		cost = 2.5; //asada price //if dble cost: declared this variable within this block (switch stmt) that will only be used here
+		TacoStand.numAsada -= numTacos; //Updated numAsada after purchase calculate for ea. case
+		break; //BUT that's what the break statement is here for :3
+		case 2: //it stops the switch from running after specific case is chosen
+		//pollo 	//keeping it relevant
+		cost = 1.75; //pollo price
+		TacoStand.numPollo -= numTacos;
+		break;
+		case 3: //if using constant (that was initialized in comments for ex) you can make it case TacoStand.POLLO_OPTION
+		//lengua //^^ self-documenting code
+		cost = 3.0;
+		TacoStand.numLengua -= numTacos;
+		break;
+		case 4:
+		//ultimate
+		cost = 18.0;
+		TacoStand.numUltimate -= numTacos;
+		break;
+		default:
+		//error
+		cost = 0;
+		break;
 		}
-		else if (tacoOption == 2){ // pollo
-			payment = PRICEPOLLO * numTacos;
-			TacoStand.numPollo -= numTacos;
-		}
-		else if (tacoOption == 3){ // lengua
-			payment = PRICELENGUA * numTacos;
-			TacoStand.numLengua -= numTacos;
-		}
-		else if (tacoOption == 4){ // ULTIMATE !!!
-			payment = PRICEULTIMATE * numTacos;
-			TacoStand.numUltimate -= numTacos;
-		}
-			TacoStand.totalFunds += payment;
+		//calc customer's cost outside of switch stmt
+		TacoStand.totalFunds += cost*numTacos;
 	}
 	
 	
@@ -145,41 +147,54 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		//TODO: this is stubbed, replace this line with your actual code!
-		if (tacoOption == 1){ // asada 
-			if (TacoStand.numAsada >= numTacos){
-S				return true;
-			}
-			else if (TacoStand.numAsada < numTacos){
-				return false;
-			}
-		}
-		if (tacoOption == 2){ // pollo
-			if (TacoStand.numPollo >= numTacos){
-				return true;
-			}
-			else if (TacoStand.numPollo < numTacos){
-				return false;
-			}
+	
+		//complex boolean:
+		return (tacoOption == TacoStand.ASADA_OPTION && numTacos <= TacoStand.numAsada) ||
+				(tacoOption == TacoStand.POLLO_OPTION && numTacos <= TacoStand.numPollo)||
+				(tacoOption == TacoStand.LENGUA_OPTION && numTacos <= TacoStand.numLengua)||
+				(tacoOption == TacoStand.ULTIMATE_OPTION && numTacos <= TacoStand.numUltimate);
+	
+		//if else approach
+		/* 
+		if(	(tacoOption == TacoStand.ASADA_OPTION && numTacos <= TacoStand.numAsada)||
+			(tacoOption == TacoStand.POLLO_OPTION && numTacos <= TacoStand.numPollo)||
+			(tacoOption == TacoStand.LENGUA_OPTION && numTacos <= TacoStand.numLengua)||
+			(tacoOption == TacoStand.ULTIMATE_OPTION && numTacos <= TacoStand.numUltimate)){
 
+			return true;
 		}
-		if (tacoOption == 3){ // lengua
-			if (TacoStand.numLengua >= numTacos){
-				return true;
-			}
-			else if (TacoStand.numLengua < numTacos){
-				return false;
-			}
+		else{
+			return false;
+		}
+	
+		//multiway if approach w/ AND: return true if any (OR) of the 4 "available scenarios"
+		if(tacoOption == TacoStand.ASADA_OPTION){
+			return numTacos <= TacoStand.numAsada;
+		}
+		else if(tacoOption == TacoStand.POLLO_OPTION){
+			return numTacos <= TacoStand.numPollo;
+		}
+		else if(tacoOption == TacoStand.LENGUA_OPTION){
+			return numTacos <= TacoStand.numLengua;
+		}
+		else if(tacoOption == TacoStand.ULTIMATE_OPTION){
+			return numTacos <= TacoStand.numUltimate;
+		}
+		else{
+			return false;
+		}
 
+
+		//swith approach
+		/* 
+		switch(tacoOption){
+			case TacoStand.ASADA_OPTION:
+				return numTacos <= TacoStand.numAsada;
+				break;
+				*/ //rest of cases
+				// ...
+				// default:
+				//	return false;
+				
 		}
-		if (tacoOption == 4){ // ULTIMATE !!!
-			if (TacoStand.numUltimate >= numTacos){
-				return true;
-			}
-			else if (TacoStand.numUltimate < numTacos){
-				return false;
-			}
-		}
-		return false;
 	}
-}
